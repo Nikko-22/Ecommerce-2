@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 300px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-top: 10px;
+      }
+      input {
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .forgot-password {
+        margin-top: 10px;
+        color: #2196f3;
+        cursor: pointer;
+        text-align: right;
+      }
+      .forgot-password:hover {
+        text-decoration: underline;
+      }
+      .terms {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .already-account {
+        margin-top: 10px;
+        text-align: center;
+        color: #2196f3;
+        cursor: pointer;
+      }
+      .already-account:hover {
+        text-decoration: underline;
+      }
+      .error {
+        color: red;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Button to open the modal -->
+    <button id="openModal">Open Login Modal</button>
+    <!-- The Modal -->
+    <div id="loginModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content" id="newUserModal">
+        <span class="close">&times;</span>
+        <h2>Login Form</h2>
+        <form id="signupForm">
+          <label for="newUsername">Username:</label>
+          <input type="text" id="newUsername" name="newUsername" required />
+          <label for="newEmail">Email:</label>
+          <label for="newPassword">Password:</label>
+          <input type="password" id="newPassword" name="newPassword" required />
+          <label for="confirmPassword">Re-enter Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+          />
+          <div>
+            <input type="checkbox" id="togglePassword" /> Show Passwords
+          </div>
+
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+          />
+          <div class="terms">
+            <input type="checkbox" id="terms" name="terms" required />
+            <label for="terms">
+              I agree to the <a href="#">Terms and Conditions</a></label
+            >
+          </div>
+          <button type="submit">Sign Up</button>
+          <div class="error" id="error"></div>
+        </form>
+        <div class="forgot-password">Forgot Password?</div>
+        <div class="already-account" id="switchToLogin">
+          Already have an account?
+        </div>
+      </div>
+    </div>
+    <!-- Existing User Login Modal -->
+    <div id="loginModal2" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Existing User Login</h2>
+        <form id="loginForm">
+          <label for="oldUsername">Username:</label>
+          <input type="text" id="oldUsername" name="oldUsername" required />
+          <label for="oldPassword">Password:</label>
+          <input type="password" id="oldPassword" name="oldPassword" required />
+          <button type="submit">Login</button>
+        </form>
+        <div class="forgot-password">Forgot Password?</div>
+      </div>
+    </div>
+    <script>
+      // Get modal elements
+      var newUserModal = document.getElementById("loginModal");
+      var existingUserModal = document.getElementById("loginModal2");
+
+      // Get open modal button
+      var btn = document.getElementById("openModal");
+      // Get close buttons
+      var closeButtons = document.getElementsByClassName("close");
+
+      // Get switch to login element
+      var switchToLogin = document.getElementById("switchToLogin");
+
+      // Listen for open click
+      btn.onclick = function () {
+        newUserModal.style.display = "block";
+      };
+
+      // Listen for close click
+      for (var i = 0; i < closeButtons.length; i++) {
+        closeButtons[i].onclick = function () {
+          newUserModal.style.display = "none";
+          existingUserModal.style.display = "none";
+        };
+      }
+
+      // Listen for outside click
+      window.onclick = function (event) {
+        if (event.target == newUserModal) {
+          newUserModal.style.display = "none";
+        } else if (event.target == existingUserModal) {
+          existingUserModal.style.display = "none";
+        }
+      };
+
+      // Switch to login form
+      switchToLogin.onclick = function () {
+        newUserModal.style.display = "none";
+        existingUserModal.style.display = "block";
+      };
+
+      // Form validation
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (event) {
+          var password = document.getElementById("newPassword").value;
+          var confirmPassword =
+            document.getElementById("confirmPassword").value;
+          var error = document.getElementById("error");
+
+          if (password !== confirmPassword) {
+            event.preventDefault();
+            error.textContent = "Passwords do not match!";
+          } else {
+            error.textContent = "";
+          }
+        });
+
+      // Form submission handling for existing users
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          // Implement your logic here for existing user login
+        });
+    </script>
+  </body>
+</html>
