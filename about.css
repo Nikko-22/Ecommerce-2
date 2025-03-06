@@ -581,7 +581,7 @@ footer {
   }
 
   .navLinks a {
-    color: var(--background-color);
+    color: var(--text);
   }
 }
 @media (min-width: 48rem) {

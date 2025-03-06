@@ -1,5 +1,5 @@
 :root {
-  --accent: #808080;
+  --accent: brown;
   --text: #000;
   --text-2: #fff;
   --background: #000;
@@ -568,12 +568,12 @@ footer {
 
   .navLinks ul {
     flex-direction: column;
-    color: var(--background-color);
+    color: var(--text-2);
     z-index: 1;
   }
 
   .navLinks a {
-    color: var(--background-color);
+    color: var(--text-2) !important;
   }
 }
 @media (min-width: 48rem) {
